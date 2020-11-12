@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, random
 from characteranims_ import Player_walk
 from pygame.locals import *
 
@@ -50,7 +50,7 @@ def game():
 
         if rect.colliderect(library_rect):
             if keys[pygame.K_z]:
-                level1()
+                level_1()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -76,17 +76,36 @@ def game():
 
 
 
-def level1():
-    level_running = True
+def level_1():
+    generating = True
+    list = []
+    timer = 0
+    while generating:
+        keys = pygame.key.get_pressed()
+        x = random.randint(0, 1444)
+        y = random.randint(0, 800)
+        book = pygame.Rect(x, y, 100, 100)
+        timer += 1
 
-    while level_running:
+        if timer == 50:
+            list.append(book)
+            timer = 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+        if keys[pygame.K_RIGHT]:
+            player_movement.animate()
 
-        window.fill((255, 0, 0))
-        pygame.display.update()
+        if keys[pygame.K_LEFT]:
+            player_movement.animate()
 
+        window.fill((0, 0, 0))
+        for x in range(len(list)):
+            pygame.draw.rect(window, (255, 0, 0), list[x])
+        moving_character.draw(window)
+        moving_character.update(0.25)
+        pygame.display.flip()
+        clock.tick(60)
 
 main_menu()
