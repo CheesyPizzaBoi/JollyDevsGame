@@ -37,11 +37,21 @@ def main_menu():
 def game():
     running = True
     otherscene = pygame.Rect(350, 350, 100, 100)
+    library = pygame.image.load('./Assets/Library.png')
+
+    library_x = 550
+    library_y = 200
 
 
+    library_rect = pygame.Rect(library_x, library_y, 357, 357)
     while running:
-        if player_movement.rect.x > 350 and player_movement.rect.x < 450:
-            level1()
+        rect = pygame.Rect(player_movement.rect.x + 80, player_movement.rect.y + 70, 106, 196)
+        keys = pygame.key.get_pressed()
+
+        if rect.colliderect(library_rect):
+            if keys[pygame.K_z]:
+                level1()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -50,7 +60,6 @@ def game():
                 if event.key == K_ESCAPE:
                     running = False
 
-        keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
             player_movement.animate()
         if keys[pygame.K_LEFT]:
@@ -58,10 +67,10 @@ def game():
 
 
         window.blit(scene, (0, 0))
-        pygame.draw.rect(window, (255, 255, 255), otherscene)
+        window.blit(library, (library_x, library_y))
+
         moving_character.draw(window)
         moving_character.update(0.25)
-
         pygame.display.flip()
         clock.tick(60)
 
@@ -76,7 +85,7 @@ def level1():
                 pygame.quit()
                 sys.exit()
 
-        window.fill((0, 0, 0))
+        window.fill((255, 0, 0))
         pygame.display.update()
 
 

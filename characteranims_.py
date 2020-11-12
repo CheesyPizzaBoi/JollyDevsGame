@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame
 
 class Player_walk(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
@@ -38,8 +38,10 @@ class Player_walk(pygame.sprite.Sprite):
         self.rect.topleft = [pos_x, pos_y]
 
 
+
     def animate(self):
         self.is_animating = True
+
 
     '''def moving(self):
         x = 400
