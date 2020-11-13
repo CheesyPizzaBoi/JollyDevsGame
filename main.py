@@ -1,7 +1,7 @@
 import pygame, sys, random
 from characteranims_ import Player_walk
+from level1Classes import randomGeneration
 from pygame.locals import *
-
 pygame.init()
 display_width = 1444
 display_height = 800
@@ -9,7 +9,6 @@ window = pygame.display.set_mode((display_width, display_height))
 menu = pygame.image.load('./Assets/Main Menu.png')
 scene = pygame.image.load('./Assets/Main_Scene.png')
 clock = pygame.time.Clock()
-
 
 moving_character = pygame.sprite.Group()
 player_movement = Player_walk(600, 400)
@@ -33,25 +32,18 @@ def main_menu():
                 if event.button == 1:
                     click = True
         pygame.display.update()
-
 def game():
     running = True
-    otherscene = pygame.Rect(350, 350, 100, 100)
     library = pygame.image.load('./Assets/Library.png')
-
     library_x = 550
     library_y = 200
-
-
     library_rect = pygame.Rect(library_x, library_y, 357, 357)
     while running:
         rect = pygame.Rect(player_movement.rect.x + 80, player_movement.rect.y + 70, 106, 196)
         keys = pygame.key.get_pressed()
-
         if rect.colliderect(library_rect):
             if keys[pygame.K_z]:
                 level_1()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -59,53 +51,56 @@ def game():
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     running = False
-
         if keys[pygame.K_RIGHT]:
             player_movement.animate()
         if keys[pygame.K_LEFT]:
             player_movement.animate()
-
-
         window.blit(scene, (0, 0))
         window.blit(library, (library_x, library_y))
-
         moving_character.draw(window)
         moving_character.update(0.25)
         pygame.display.flip()
         clock.tick(60)
-
-
-
 def level_1():
     generating = True
-    list = []
-    timer = 0
-    while generating:
-        keys = pygame.key.get_pressed()
-        x = random.randint(0, 1444)
-        y = random.randint(0, 800)
-        book = pygame.Rect(x, y, 100, 100)
-        timer += 1
+    max = 400
+    points = 0
+    timer = random.randint(0, max)
+    x = random.randint(0, 1444)
+    y = random.randint(0, 800)
 
-        if timer == 50:
-            list.append(book)
-            timer = 0
+    book_group = pygame.sprite.Group()
+    book_class = randomGeneration(x, y)
+    book_group.add(book_class)
+
+    while generating:
+        rect = pygame.Rect(player_movement.rect.x + 80, player_movement.rect.y + 70, 106, 196)
+        library_scene = pygame.image.load('./Assets/Library_Scene.png')
+        window.blit(library_scene, (0, 0))
+        keys = pygame.key.get_pressed()
+        timer += 1
+        if timer == max:
+            book_class.randomxy()
+            timer = random.randint(0, max)
+        if rect.colliderect(book_class.rect):
+            book_class.randomxy()
+            timer = random.randint(0, max)
+            points +=1
+
+        if points == 5:
+            game()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
         if keys[pygame.K_RIGHT]:
             player_movement.animate()
-
         if keys[pygame.K_LEFT]:
             player_movement.animate()
-
-        window.fill((0, 0, 0))
-        for x in range(len(list)):
-            pygame.draw.rect(window, (255, 0, 0), list[x])
+        book_group.draw(window)
         moving_character.draw(window)
         moving_character.update(0.25)
         pygame.display.flip()
         clock.tick(60)
-
 main_menu()

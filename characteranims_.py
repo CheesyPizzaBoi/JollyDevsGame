@@ -60,7 +60,7 @@ class Player_walk(pygame.sprite.Sprite):
         self.velocityY = 0
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
-            self.velocityX = 4
+            self.velocityX = 8
             if self.is_animating == True:
                 self.current_sprite += speed
 
@@ -70,7 +70,7 @@ class Player_walk(pygame.sprite.Sprite):
 
                 self.image = self.sprites[int(self.current_sprite)]
         if keys[pygame.K_LEFT]:
-            self.velocityX = -4
+            self.velocityX = -8
             if self.is_animating == True:
                 self.current_sprite2 += speed
 
@@ -81,9 +81,9 @@ class Player_walk(pygame.sprite.Sprite):
                 self.image = self.sprites2[int(self.current_sprite2)]
 
         if keys[pygame.K_UP]:
-            self.velocityY = -4
+            self.velocityY = -8
         if keys[pygame.K_DOWN]:
-            self.velocityY = 4
+            self.velocityY = 8
         self.rect.x += self.velocityX
         self.rect.y += self.velocityY
 
