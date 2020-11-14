@@ -15,4 +15,4 @@ class randomGeneration(pygame.sprite.Sprite):
         self.rect.topleft = [position_x, position_y]
 
     def randomxy(self):
-        self.rect.topleft = [random.randint(0, 1444), random.randint(0, 800)]
+        self.rect.topleft = [random.randint(50, 1400), random.randint(230, 750)]

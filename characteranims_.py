@@ -80,10 +80,6 @@ class Player_walk(pygame.sprite.Sprite):
 
                 self.image = self.sprites2[int(self.current_sprite2)]
 
-        if keys[pygame.K_UP]:
-            self.velocityY = -8
-        if keys[pygame.K_DOWN]:
-            self.velocityY = 8
         self.rect.x += self.velocityX
         self.rect.y += self.velocityY
 
